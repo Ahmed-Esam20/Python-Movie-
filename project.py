@@ -15,6 +15,33 @@ df = df.drop_duplicates(subset="rotten_tomatoes_link")
 df = df.dropna(subset=["tomatometer_rating", "genres", "year", "movie_title"])
 
 # ============================================================================================================
+# 1) Top 10 highest-rated movies
+# =========================================================
+
+top10 = df.sort_values(by="tomatometer_rating", ascending=False).head(10)
+print(top10[["movie_title", "tomatometer_rating"]])
+
+
+
+# =========================================================
+# 2) Count of movies per genre
+# =========================================================
+genre_count = df["genres"].value_counts()
+
+print("\nCount of movies per genres:")
+print(genre_count)
+
+
+# =========================================================
+# 3) Filter movies released before 2000
+# =========================================================
+
+# df["original_release_date"] = pd.to_datetime(df["original_release_date"], errors="coerce")
+
+# old_movies = df[df["original_release_date"].dt.year < 2000]
+
+# print("\nMovies released before 2000:")
+# print(old_movies[["movie_title", "original_release_date"]])
 
 # =========================================================
 # 4) Movies with rating above average
