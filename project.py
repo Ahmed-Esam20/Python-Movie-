@@ -53,3 +53,36 @@ print("\nAverage rating per year:")
 print(avg_per_year.head(10))
 
 
+# =========================================================
+# 8) Count movies for each individual genre
+# =========================================================
+genres_split = df.assign(genres=df["genres"].str.split(",")).explode("genres")
+genres_split["genres"] = genres_split["genres"].str.strip()
+
+genre_counts = genres_split["genres"].value_counts()
+
+print("\nMovies per genre:")
+print(genre_counts.head(10))
+
+
+# =========================================================
+# 9) Compare average rating long vs short movies (>120 min)
+# =========================================================
+# df["length_category"] = df["runtime"].apply(lambda x: "Long" if x > 120 else "Short")
+
+# length_comparison = df.groupby("length_category")["tomatometer_rating"].mean()
+
+# print("\nLong vs Short movies rating:")
+# print(length_comparison)
+
+
+# =========================================================
+# 10) Top-rated movie per genre
+# =========================================================
+top_per_genre = genres_split.sort_values(
+    "tomatometer_rating", ascending=False
+).drop_duplicates("genres")[["genres", "movie_title", "tomatometer_rating"]]
+
+print("\nTop movie per genre:")
+print(top_per_genre.head(10))
+
